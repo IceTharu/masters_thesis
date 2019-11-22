@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Aug  4 14:47:42 2019
+
+@author: thorsteinngj
+"""
+
+import pandas as pd
+import numpy as np
+import urllib.request
+from tqdm import tqdm
+
+source = '/home/thorsteinngj/Documents/Skoli/Thesis/Code/'
+image_csv = pd.read_csv(source+'my_dataset_small.csv')
+#%%
+
+img_links = list(image_csv["img_link"])
+ids = list(image_csv["grave_id"])
+#55
+for im in tqdm(range(4843,6398,1)):
+    urllib.request.urlretrieve(img_links[im], source+"Images_small/"+str(ids[im])+".jpg")
+
+
+#%%
+image_csv["cem_county"]["cem_state"]
+np.unique(image_csv["cem_county"])
