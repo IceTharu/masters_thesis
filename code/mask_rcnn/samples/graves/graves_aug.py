@@ -21,7 +21,7 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
     python3 balloon.py train --dataset=/path/to/balloon/dataset --weights=imagenet
 
     # Apply color splash to an image
-    python3 balloon.py splash --weights=/path/to/weights/file.h5 --image=<URL or path to file>
+    python3 graves_aug.py splash --weights=/media/thorsteinngj/c1f0e49d-1218-4d11-ab9f-aadb4a021648/home/thorsteinngj/Documents/Thesis/logs/graves20191125T1808/mask_rcnn_graves_0043.h5 --image=/media/thorsteinngj/c1f0e49d-1218-4d11-ab9f-aadb4a021648/home/thorsteinngj/Documents/Thesis/Pics/118242307.jpg
 
     # Apply color splash to video using the last weights you trained
     python3 balloon.py splash --weights=last --video=<URL or path to file>
@@ -38,7 +38,7 @@ import imgaug.augmenters as iaa
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # Root directory of the project
-ROOT_DIR = os.path.abspath("../../")
+ROOT_DIR = '/home/thorsteinngj/Documents/Skoli/Thesis/Code/Mask_RCNN/samples'
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
@@ -222,7 +222,7 @@ def train(model):
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=50,
-                layers='heads'
+                layers='heads',
                 augmentation=seq)
 
 
@@ -396,3 +396,20 @@ if __name__ == '__main__':
         print("'{}' is not recognized. "
               "Use 'train' or 'splash'".format(args.command))
 
+
+#%%
+
+class InferenceConfig(CustomConfig):
+    GPU_COUNT = 1
+    IMAGES_PER_GPU = 1
+    IMAGE_MIN_DIM = 800
+    IMAGE_MAX_DIM = 1024
+    DETECTION_MIN_CONFIDENCE = 0.8
+    
+inference_config = InferenceConfig()
+
+model = modellib.MaskRCNN(mode='inference',
+                          config=inference_config,
+                          model_dir='/media/thorsteinngj/c1f0e49d-1218-4d11-ab9f-aadb4a021648/home/thorsteinngj/Documents/Thesis/logs/graves20191125T1808/mask_rcnn_graves_0043.h5')
+
+model_path = model.find_last()
