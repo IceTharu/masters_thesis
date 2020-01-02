@@ -7,8 +7,8 @@ Created on Mon Sep 23 15:24:25 2019
 """
 
 import os
-source1 = "/home/thorsteinngj/Documents/Skoli/Thesis/Code/Pictures/Sample"
-dest11 = "/home/thorsteinngj/Documents/Skoli/Thesis/Code/Pictures/val"
+source1 = "/home/thorsteinngj/Desktop/ims/Images/"
+dest11 = "/home/thorsteinngj/Desktop/ims/val"
 files = os.listdir(source1)
 import shutil
 import numpy as np
